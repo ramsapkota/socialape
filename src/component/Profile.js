@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import EditDetails from "./EditDetails";
 
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
@@ -112,6 +113,7 @@ class Profile extends Component {
                   <EditIcon color="primary" />
                 </IconButton>
               </ToolTip>
+              <EditDetails />
             </div>
             <hr />
             <div className="profile-details">
