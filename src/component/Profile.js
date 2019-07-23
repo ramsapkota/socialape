@@ -1,74 +1,25 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-// MUI stuff
+
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import MuiLink from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
-// Icons
+import MuiLink from "@material-ui/core/Link";
+import TypoGraphy from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import ToolTip from "@material-ui/core/Tooltip";
+
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import EditIcon from "@material-ui/icons/Edit";
-import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
-//Redux
-import { connect } from "react-redux";
-import { logoutUser, uploadImage } from "../redux/actions/dataActions";
 
-const styles = theme => ({
-  palette: {
-    primary: {
-      light: "#33c9dc",
-      main: "#00bcd4",
-      dark: "#008394",
-      contrastText: "#fff"
-    },
-    secondary: {
-      light: "#ff6333",
-      main: "#ff3d00",
-      dark: "#b22a00",
-      contrastText: "#fff"
-    }
-  },
-  typography: {
-    useNextVariants: true
-  },
-  form: {
-    textAlign: "center"
-  },
-  image: {
-    margin: "20px auto 20px auto"
-  },
-  pageTitle: {
-    margin: "10px auto 10px auto"
-  },
-  textField: {
-    margin: "10px auto 10px auto"
-  },
-  button: {
-    marginTop: 20,
-    position: "relative"
-  },
-  customError: {
-    color: "red",
-    fontSize: "0.8rem",
-    marginTop: 10
-  },
-  progress: {
-    position: "absolute"
-  },
-  invisibleSeparator: {
-    border: "none",
-    margin: 4
-  },
-  visibleSeparator: {
-    width: "100%",
-    borderBottom: "1px solid rgba(0,0,0,0.1)",
-    marginBottom: 20
-  },
+import { connect } from "react-redux";
+import { logoutUser, uploadImage } from "../redux/actions/userActions";
+
+const styles = {
   paper: {
     padding: 20
   },
@@ -114,73 +65,77 @@ const styles = theme => ({
       margin: "20px 10px"
     }
   }
-});
-
+};
 class Profile extends Component {
   handleImageChange = event => {
     const image = event.target.files[0];
+    console.log(image);
     const formData = new FormData();
-    formData.append("image", image, image.name);
+    formData.append("image", image, image);
     this.props.uploadImage(formData);
   };
-  handleEditPicture = () => {
-    const fileInput = document.getElementById("imageInput");
+
+  haldleEditPicture = () => {
+    const fileInput = document.getElementById("image-input");
     fileInput.click();
   };
-  handleLogout = () => {
-    this.props.logoutUser();
-  };
+
   render() {
     const {
       classes,
+
       user: {
         credentials: { handle, createdAt, imageUrl, bio, website, location },
         loading,
         authenticated
       }
     } = this.props;
-
+    console.log(this.props.user);
     let profileMarkup = !loading ? (
       authenticated ? (
         <Paper className={classes.paper}>
           <div className={classes.profile}>
             <div className="image-wrapper">
-              <img src={imageUrl} alt="profile" className="profile-image" />
+              <img src={imageUrl} alt="Profile" className="profile-image" />
               <input
                 type="file"
-                id="imageInput"
+                id="image-input"
                 hidden="hidden"
                 onChange={this.handleImageChange}
               />
+              <ToolTip title="Edit profile picture" placement="top">
+                <IconButton onClick={this.haldleEditPicture} className="button">
+                  <EditIcon color="primary" />
+                </IconButton>
+              </ToolTip>
             </div>
             <hr />
             <div className="profile-details">
               <MuiLink
                 component={Link}
-                to={`/users/${handle}`}
+                to={`/usrs/${handle}`}
                 color="primary"
-                variant="h5"
+                varient="h5"
               >
                 @{handle}
               </MuiLink>
               <hr />
-              {bio && <Typography variant="body2">{bio}</Typography>}
+              {bio && <TypoGraphy variant="body2">{bio}</TypoGraphy>}
               <hr />
               {location && (
-                <Fragment>
+                <React.Fragment>
                   <LocationOn color="primary" /> <span>{location}</span>
-                  <hr />
-                </Fragment>
+                </React.Fragment>
               )}
               {website && (
-                <Fragment>
+                <React.Fragment>
                   <LinkIcon color="primary" />
                   <a href={website} target="_blank" rel="noopener noreferrer">
                     {" "}
                     {website}
                   </a>
                   <hr />
-                </Fragment>
+                </React.Fragment>
               )}
               <CalendarToday color="primary" />{" "}
               <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
@@ -188,13 +143,13 @@ class Profile extends Component {
           </div>
         </Paper>
       ) : (
-        <Paper className={classes.paper}>
-          <Typography variant="body2" align="center">
-            No profile found, please login again
-          </Typography>
+        <Paper className={classes.Paper}>
+          <TypoGraphy varietn="body2" align="center">
+            No Profile found, please login again
+          </TypoGraphy>
           <div className={classes.buttons}>
             <Button
-              variant="contained"
+              varient="contained"
               color="primary"
               component={Link}
               to="/login"
@@ -202,8 +157,8 @@ class Profile extends Component {
               Login
             </Button>
             <Button
-              variant="contained"
-              color="secondary"
+              varient="contained"
+              color="primary"
               component={Link}
               to="/signup"
             >
@@ -213,24 +168,21 @@ class Profile extends Component {
         </Paper>
       )
     ) : (
-      <p>Profile Skeleton</p>
+      <p>Loading....</p>
     );
-
-    return profileMarkup;
+    return <div>{profileMarkup}</div>;
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user
 });
-
 const mapActionsToProps = { logoutUser, uploadImage };
 
 Profile.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
-  uploadImage: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  uploadImage: PropTypes.func.isRequired
 };
 
 export default connect(

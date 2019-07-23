@@ -35,7 +35,6 @@ export const getUserData = () => dispatch => {
   axios
     .get("/user")
     .then(res => {
-      console.log(res.data, "getUserData action");
       dispatch({
         type: SET_USER,
         payload: res.data
@@ -60,6 +59,16 @@ export const signupUser = (newUserData, history) => dispatch => {
         payload: err.response.data
       });
     });
+};
+
+export const uploadImage = formData => dispatch => {
+  dispatch({ type: LOADING_USER });
+  axios
+    .post("/user/image", formData)
+    .then(() => {
+      dispatch(getUserData());
+    })
+    .catch(err => console.log(err));
 };
 
 const setAuthorizationHeader = token => {
