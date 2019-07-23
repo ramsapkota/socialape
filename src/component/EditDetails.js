@@ -17,7 +17,12 @@ class EditDetails extends Component {
     oopen: false
   };
 
-  componentDidMount;
+  componentDidMount() {
+    const { credentials } = this.props;
+    this.setState({
+      bio: credentials.bio
+    });
+  }
 
   render() {
     console.log(styles);
