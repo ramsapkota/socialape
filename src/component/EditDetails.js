@@ -11,9 +11,8 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
+import MyButton from "../util/MyButton";
 
 const styles = theme => ({
   palette: {
@@ -46,7 +45,8 @@ const styles = theme => ({
     margin: "10px auto 10px auto"
   },
   button: {
-    float: "right"
+    float: "right",
+    position: "relative"
   },
   customError: {
     color: "red",
@@ -159,11 +159,14 @@ class EditDetails extends Component {
     const { classes } = this.props;
     return (
       <Fragment>
-        <Tooltip title="Edit Details" placement="top">
-          <IconButton onClick={this.haldleOpen} className={classes.button}>
-            <EditIcon color="primary" />
-          </IconButton>
-        </Tooltip>
+        <MyButton
+          btnClassname={classes.button}
+          tip="Edit Prifile Details"
+          onClick={this.haldleOpen}
+        >
+          <EditIcon color="primary" />
+        </MyButton>
+
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
