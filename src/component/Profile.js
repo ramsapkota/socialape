@@ -71,7 +71,6 @@ const styles = {
 class Profile extends Component {
   handleImageChange = event => {
     const image = event.target.files[0];
-    console.log(image);
     const formData = new FormData();
     formData.append("image", image, image);
     this.props.uploadImage(formData);
@@ -95,7 +94,6 @@ class Profile extends Component {
         authenticated
       }
     } = this.props;
-    console.log(this.props.user);
     let profileMarkup = !loading ? (
       authenticated ? (
         <Paper className={classes.paper}>
@@ -113,7 +111,6 @@ class Profile extends Component {
                   <EditIcon color="primary" />
                 </IconButton>
               </ToolTip>
-              <EditDetails />
             </div>
             <hr />
             <div className="profile-details">
@@ -127,14 +124,15 @@ class Profile extends Component {
               </MuiLink>
               <hr />
               {bio && <TypoGraphy variant="body2">{bio}</TypoGraphy>}
-              <hr />
               {location && (
                 <React.Fragment>
+                  <hr />
                   <LocationOn color="primary" /> <span>{location}</span>
                 </React.Fragment>
               )}
               {website && (
                 <React.Fragment>
+                  <hr />
                   <LinkIcon color="primary" />
                   <a href={website} target="_blank" rel="noopener noreferrer">
                     {" "}
@@ -151,6 +149,7 @@ class Profile extends Component {
                 <KeyboardReturn color="primary" />
               </IconButton>
             </ToolTip>
+            <EditDetails />
           </div>
         </Paper>
       ) : (
