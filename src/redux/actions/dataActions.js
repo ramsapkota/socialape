@@ -13,3 +13,9 @@ export const getScreams = () => dispatch => {
       dispatch({ type: SET_SCREAMS, payload: [] });
     });
 };
+
+//Like a scream
+// export const likeScream =(screamId)=>(dispatch)=>{
+//     axios.get() 8:12:23
+// }
+//Unlike a scream
