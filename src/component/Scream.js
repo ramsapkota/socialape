@@ -1,23 +1,23 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
-//MUI stuff
+import { Link } from "react-router-dom";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import PropTypes from "prop-types";
+import MyButton from "../util/MyButton";
+import DeleteScream from "./DeleteScream";
+// MUI Stuff
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-
-import PropTypes from "prop-types";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-
+// Icons
+import ChatIcon from "@material-ui/icons/Chat";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+// Redux
 import { connect } from "react-redux";
 import { likeScream, unlikeScream } from "../redux/actions/dataActions";
-
-import Mybutton from "../util/MyButton";
-import ChatIcon from "@material-ui/icons/Chat";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const styles = {
   card: {
@@ -33,7 +33,8 @@ const styles = {
     objectFit: "cover"
   }
 };
-export class Scream extends Component {
+
+class Scream extends Component {
   likedScream = () => {
     if (
       this.props.user.likes &&
@@ -50,7 +51,6 @@ export class Scream extends Component {
   unlikeScream = () => {
     this.props.unlikeScream(this.props.scream.screamId);
   };
-
   render() {
     dayjs.extend(relativeTime);
     const {
@@ -64,30 +64,37 @@ export class Scream extends Component {
         likeCount,
         commentCount
       },
-      user: { authenticated }
+      user: {
+        authenticated,
+        credentials: { handle }
+      }
     } = this.props;
     const likeButton = !authenticated ? (
-      <Mybutton tip="Like">
+      <MyButton tip="Like">
         <Link to="/login">
           <FavoriteBorder color="primary" />
         </Link>
-      </Mybutton>
+      </MyButton>
     ) : this.likedScream() ? (
-      <Mybutton tip="Undo Like" onClick={this.unlikeScream}>
+      <MyButton tip="Undo like" onClick={this.unlikeScream}>
         <FavoriteIcon color="primary" />
-      </Mybutton>
+      </MyButton>
     ) : (
-      <Mybutton tip="Like" onClick={this.likeScream}>
+      <MyButton tip="Like" onClick={this.likeScream}>
         <FavoriteBorder color="primary" />
-      </Mybutton>
+      </MyButton>
     );
+    const deleteButton =
+      authenticated && userHandle === handle ? (
+        <DeleteScream screamId={screamId} />
+      ) : null;
     return (
       <Card className={classes.card}>
         <CardMedia
           image={userImage}
           title="Profile image"
           className={classes.image}
-        />{" "}
+        />
         <CardContent className={classes.content}>
           <Typography
             variant="h5"
@@ -95,19 +102,20 @@ export class Scream extends Component {
             to={`/users/${userHandle}`}
             color="primary"
           >
-            {userHandle}{" "}
-          </Typography>{" "}
+            {userHandle}
+          </Typography>
+          {deleteButton}
           <Typography variant="body2" color="textSecondary">
-            {" "}
-            {dayjs(createdAt).fromNow()}{" "}
-          </Typography>{" "}
-          <Typography variant="body1"> {body} </Typography> {likeButton}
+            {dayjs(createdAt).fromNow()}
+          </Typography>
+          <Typography variant="body1">{body}</Typography>
+          {likeButton}
           <span>{likeCount} Likes</span>
-          <Mybutton tip="comments">
+          <MyButton tip="comments">
             <ChatIcon color="primary" />
-          </Mybutton>
+          </MyButton>
           <span>{commentCount} comments</span>
-        </CardContent>{" "}
+        </CardContent>
       </Card>
     );
   }
@@ -124,10 +132,12 @@ Scream.propTypes = {
 const mapStateToProps = state => ({
   user: state.user
 });
+
 const mapActionsToProps = {
   likeScream,
   unlikeScream
 };
+
 export default connect(
   mapStateToProps,
   mapActionsToProps
