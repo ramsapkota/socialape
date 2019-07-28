@@ -4,116 +4,21 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import MyButton from "../util/MyButton";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
+import ChatIcon from "@material-ui/icons/Chat";
 import UnfoldMore from "@material-ui/icons/UnfoldMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { connect } from "react-redux";
 import { getScream } from "../redux/actions/dataActions";
+import LikeButton from "./LikeButton";
 
 const styles = {
-  palette: {
-    primary: {
-      light: "#33c9dc",
-      main: "#00bcd4",
-      dark: "#008394",
-      contrastText: "#fff"
-    },
-    secondary: {
-      light: "#ff6333",
-      main: "#ff3d00",
-      dark: "#b22a00",
-      contrastText: "#fff"
-    }
-  },
-  typography: {
-    useNextVariants: true
-  },
-  form: {
-    textAlign: "center"
-  },
-  image: {
-    margin: "20px auto 20px auto"
-  },
-  pageTitle: {
-    margin: "10px auto 10px auto"
-  },
-  textField: {
-    margin: "10px auto 10px auto"
-  },
-  button: {
-    marginTop: 20,
-    position: "relative"
-  },
-  customError: {
-    color: "red",
-    fontSize: "0.8rem",
-    marginTop: 10
-  },
-  progress: {
-    position: "absolute"
-  },
-  invisibleSeparator: {
-    border: "none",
-    margin: 4
-  },
-  visibleSeparator: {
-    width: "100%",
-    borderBottom: "1px solid rgba(0,0,0,0.1)",
-    marginBottom: 20
-  },
-  paper: {
-    padding: 20
-  },
-  profile: {
-    "& .image-wrapper": {
-      textAlign: "center",
-      position: "relative",
-      "& button": {
-        position: "absolute",
-        top: "80%",
-        left: "70%"
-      }
-    },
-    "& .profile-image": {
-      width: 200,
-      height: 200,
-      objectFit: "cover",
-      maxWidth: "100%",
-      borderRadius: "50%"
-    },
-    "& .profile-details": {
-      textAlign: "center",
-      "& span, svg": {
-        verticalAlign: "middle"
-      },
-      "& a": {
-        color: "#00bcd4"
-      }
-    },
-    "& hr": {
-      border: "none",
-      margin: "0 0 10px 0"
-    },
-    "& svg.button": {
-      "&:hover": {
-        cursor: "pointer"
-      }
-    }
-  },
-  buttons: {
-    textAlign: "center",
-    "& a": {
-      margin: "20px 10px"
-    }
-  },
   invisibleSeparator: {
     border: "none",
     margin: 4
@@ -195,6 +100,12 @@ class ScreamDialog extends Component {
           </Typography>
           <hr className={classes.invisibleSeparator} />
           <Typography variant="body1">{body}</Typography>
+          <LikeButton screamId={screamId} />
+          <span>{likeCount} likes</span>
+          <MyButton tip="comments">
+            <ChatIcon color="primary" />
+          </MyButton>
+          <span>{commentCount} comments</span>
         </Grid>
       </Grid>
     );
