@@ -7,15 +7,15 @@ import {
   POST_SCREAM,
   SET_ERRORS,
   CLEAR_ERRORS,
-  LOADING_UI
+  LOADING_UI,
+  SET_SCREAM,
+  STOP_LOADING_UI
 } from "../type";
 import axios from "axios";
 
 //get all screams
 export const getScreams = () => dispatch => {
-  dispatch({
-    type: LOADING_DATA
-  });
+  dispatch({ type: LOADING_DATA });
   axios
     .get("/screams")
     .then(res => {
@@ -30,6 +30,19 @@ export const getScreams = () => dispatch => {
         payload: []
       });
     });
+};
+export const getScream = screamId => dispatch => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .get(`/scream/${screamId}`)
+    .then(res => {
+      dispatch({
+        type: SET_SCREAM,
+        payload: res.data
+      });
+      dispatch({ type: STOP_LOADING_UI });
+    })
+    .catch(err => console.log(err));
 };
 
 //Like a scream

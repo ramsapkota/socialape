@@ -5,7 +5,7 @@ import axios from "axios";
 import Scream from "../component/Scream";
 import Profile from "../component/Profile";
 import { connect } from "react-redux";
-import { getScream, getScreams } from "../redux/actions/dataActions";
+import { getScreams } from "../redux/actions/dataActions";
 
 export class Home extends Component {
   componentDidMount() {
