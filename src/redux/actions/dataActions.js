@@ -86,3 +86,8 @@ export const postScream = newScream => dispatch => {
       });
     });
 };
+
+//clear errors
+export const clearErrors = () => dispatch => {
+  dispatch({ type: CLEAR_ERRORS });
+};

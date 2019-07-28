@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import { postScream } from "../redux/actions/dataActions";
+import { postScream, clearErrors } from "../redux/actions/dataActions";
 import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
@@ -43,6 +43,7 @@ class PostScream extends Component {
     this.setState({ open: true });
   };
   handleClose = () => {
+    this.props.clearErrors();
     this.setState({ open: false, errors: {} });
   };
   handleChange = event => {
@@ -130,9 +131,11 @@ const mapStateToProps = state => ({
 
 PostScream.propsTypes = {
   postScream: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.clearErrors,
+
   UI: PropTypes.object.isRequired
 };
 export default connect(
   mapStateToProps,
-  { postScream }
+  { postScream, clearErrors }
 )(withStyles(styles)(PostScream));
