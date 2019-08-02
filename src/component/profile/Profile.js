@@ -8,7 +8,7 @@ import EditDetails from "./EditDetails";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import MuiLink from "@material-ui/core/Link";
-import TypoGraphy from "@material-ui/core/Typography";
+import Typography from "@material-ui/core/Typography";
 
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
@@ -124,7 +124,7 @@ class Profile extends Component {
                 @{handle}
               </MuiLink>
               <hr />
-              {bio && <TypoGraphy variant="body2">{bio}</TypoGraphy>}
+              {bio && <Typography variant="body2">{bio}</Typography>}
               {location && (
                 <React.Fragment>
                   <hr />
@@ -156,13 +156,13 @@ class Profile extends Component {
           </div>
         </Paper>
       ) : (
-        <Paper className={classes.Paper}>
-          <TypoGraphy varietn="body2" align="center">
-            No Profile found, please login again
-          </TypoGraphy>
+        <Paper className={classes.paper}>
+          <Typography variant="body2" align="center">
+            No profile found, please login again
+          </Typography>
           <div className={classes.buttons}>
             <Button
-              varient="contained"
+              variant="contained"
               color="primary"
               component={Link}
               to="/login"
@@ -170,8 +170,8 @@ class Profile extends Component {
               Login
             </Button>
             <Button
-              varient="contained"
-              color="primary"
+              variant="contained"
+              color="secondary"
               component={Link}
               to="/signup"
             >

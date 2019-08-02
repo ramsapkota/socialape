@@ -14,7 +14,6 @@ import PostScream from "../scream/PostScream";
 
 class Navbar extends Component {
   render() {
-    console.log("latest navbar", this.props);
     const { authenticated } = this.props;
     return (
       <AppBar>
