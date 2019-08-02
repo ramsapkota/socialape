@@ -8,7 +8,6 @@ import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 
 const styles = theme => ({
-  ...theme,
   commentImage: {
     maxWidth: "100%",
     height: 100,
