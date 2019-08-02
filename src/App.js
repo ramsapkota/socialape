@@ -1,28 +1,33 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Prompt
-} from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import Home from "./pages/home";
-import Login from "./pages/login";
-import Signup from "./pages/signup";
-import user from "./pages/user";
-import Navbar from "./component/layout/Navbar";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
-import themeObject from "./util/theme";
-import AuthRoute from "./util/AuthRoute.js";
+import jwtDecode from "jwt-decode";
+// Redux
 import { Provider } from "react-redux";
-import { SET_AUTHENTICATED } from "./redux/type";
-import { logoutUser, getUserData } from "./redux/actions/userActions";
 import store from "./redux/store";
+import { SET_AUTHENTICATED } from "./redux/types";
+import { logoutUser, getUserData } from "./redux/actions/userActions";
+// Components
+import Navbar from "./components/layout/Navbar";
+import themeObject from "./util/theme";
+import AuthRoute from "./util/AuthRoute";
+// Pages
+import home from "./pages/home";
+import login from "./pages/login";
+import signup from "./pages/signup";
+import user from "./pages/user";
+import createPalette from "@material-ui/core/styles/createPalette";
 import axios from "axios";
 
-const theme = createMuiTheme(themeObject);
+const theme = createMuiTheme({
+  palette: createPalette(themeObject)
+});
+
+axios.defaults.baseURL =
+  "https://europe-west1-socialape-79c85.cloudfunctions.net/api";
+
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
@@ -36,26 +41,31 @@ if (token) {
   }
 }
 
-function App() {
-  return (
-    <MuiThemeProvider theme={theme}>
-      <Provider store={store}>
-        <div className="App">
+class App extends Component {
+  render() {
+    return (
+      <MuiThemeProvider theme={theme}>
+        <Provider store={store}>
           <Router>
-            <Navbar {...Prompt} />
+            <Navbar />
             <div className="container">
               <Switch>
-                <Route exact path="/" component={Home} />
-                <AuthRoute exact path="/login" component={Login} />
-                <AuthRoute exact path="/signup" component={Signup} />
+                <Route exact path="/" component={home} />
+                <AuthRoute exact path="/login" component={login} />
+                <AuthRoute exact path="/signup" component={signup} />
                 <Route exact path="/users/:handle" component={user} />
+                <Route
+                  exact
+                  path="/users/:handle/scream/:screamId"
+                  component={user}
+                />
               </Switch>
             </div>
           </Router>
-        </div>
-      </Provider>
-    </MuiThemeProvider>
-  );
+        </Provider>
+      </MuiThemeProvider>
+    );
+  }
 }
 
 export default App;

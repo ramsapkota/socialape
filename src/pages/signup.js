@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import AppIcon from "../images/icon.png";
+import { Link } from "react-router-dom";
 
 // MUI Stuff
 import Grid from "@material-ui/core/Grid";
@@ -10,9 +10,28 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
+// Redux stuff
 import { connect } from "react-redux";
 import { signupUser } from "../redux/actions/userActions";
+
 const styles = theme => ({
+  palette: {
+    primary: {
+      light: "#33c9dc",
+      main: "#00bcd4",
+      dark: "#008394",
+      contrastText: "#fff"
+    },
+    secondary: {
+      light: "#ff6333",
+      main: "#ff3d00",
+      dark: "#b22a00",
+      contrastText: "#fff"
+    }
+  },
+  typography: {
+    useNextVariants: true
+  },
   form: {
     textAlign: "center"
   },
@@ -36,10 +55,64 @@ const styles = theme => ({
   },
   progress: {
     position: "absolute"
+  },
+  invisibleSeparator: {
+    border: "none",
+    margin: 4
+  },
+  visibleSeparator: {
+    width: "100%",
+    borderBottom: "1px solid rgba(0,0,0,0.1)",
+    marginBottom: 20
+  },
+  paper: {
+    padding: 20
+  },
+  profile: {
+    "& .image-wrapper": {
+      textAlign: "center",
+      position: "relative",
+      "& button": {
+        position: "absolute",
+        top: "80%",
+        left: "70%"
+      }
+    },
+    "& .profile-image": {
+      width: 200,
+      height: 200,
+      objectFit: "cover",
+      maxWidth: "100%",
+      borderRadius: "50%"
+    },
+    "& .profile-details": {
+      textAlign: "center",
+      "& span, svg": {
+        verticalAlign: "middle"
+      },
+      "& a": {
+        color: "#00bcd4"
+      }
+    },
+    "& hr": {
+      border: "none",
+      margin: "0 0 10px 0"
+    },
+    "& svg.button": {
+      "&:hover": {
+        cursor: "pointer"
+      }
+    }
+  },
+  buttons: {
+    textAlign: "center",
+    "& a": {
+      margin: "20px 10px"
+    }
   }
 });
 
-class Signup extends Component {
+class signup extends Component {
   constructor() {
     super();
     this.state = {
@@ -50,8 +123,13 @@ class Signup extends Component {
       errors: {}
     };
   }
-  handleSubmit = e => {
-    e.preventDefault();
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
+    }
+  }
+  handleSubmit = event => {
+    event.preventDefault();
     this.setState({
       loading: true
     });
@@ -63,30 +141,25 @@ class Signup extends Component {
     };
     this.props.signupUser(newUserData, this.props.history);
   };
-  handleChange = e => {
+  handleChange = event => {
     this.setState({
-      [e.target.name]: e.target.value
+      [event.target.name]: event.target.value
     });
   };
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
-    }
-  }
   render() {
-    console.log("re render");
     const {
       classes,
       UI: { loading }
     } = this.props;
     const { errors } = this.state;
+
     return (
       <Grid container className={classes.form}>
         <Grid item sm />
         <Grid item sm>
-          <img src={AppIcon} alt="Monkey" className={classes.image} />
+          <img src={AppIcon} alt="monkey" className={classes.image} />
           <Typography variant="h2" className={classes.pageTitle}>
-            Signup
+            SignUp
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>
             <TextField
@@ -102,37 +175,37 @@ class Signup extends Component {
               fullWidth
             />
             <TextField
-              type="password"
               id="password"
               name="password"
+              type="password"
               label="Password"
+              className={classes.textField}
               helperText={errors.password}
               error={errors.password ? true : false}
-              className={classes.textField}
               value={this.state.password}
               onChange={this.handleChange}
               fullWidth
             />
             <TextField
-              type="confirmPassword"
               id="confirmPassword"
               name="confirmPassword"
+              type="password"
               label="Confirm Password"
+              className={classes.textField}
               helperText={errors.confirmPassword}
               error={errors.confirmPassword ? true : false}
-              className={classes.textField}
               value={this.state.confirmPassword}
               onChange={this.handleChange}
               fullWidth
             />
             <TextField
-              type="handle"
               id="handle"
               name="handle"
+              type="text"
               label="Handle"
+              className={classes.textField}
               helperText={errors.handle}
               error={errors.handle ? true : false}
-              className={classes.textField}
               value={this.state.handle}
               onChange={this.handleChange}
               fullWidth
@@ -149,14 +222,14 @@ class Signup extends Component {
               className={classes.button}
               disabled={loading}
             >
-              Signup
+              SignUp
               {loading && (
                 <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
             <br />
             <small>
-              already have an account ? login <Link to="/login">here</Link>
+              Already have an account ? Login <Link to="/login">here</Link>
             </small>
           </form>
         </Grid>
@@ -166,18 +239,19 @@ class Signup extends Component {
   }
 }
 
-Signup.propTypes = {
+signup.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
   signupUser: PropTypes.func.isRequired
 };
 
-const mapStatetoProps = state => ({
+const mapStateToProps = state => ({
   user: state.user,
   UI: state.UI
 });
+
 export default connect(
-  mapStatetoProps,
+  mapStateToProps,
   { signupUser }
-)(withStyles(styles)(Signup));
+)(withStyles(styles)(signup));
