@@ -10,6 +10,7 @@ import "./App.css";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
+import user from "./pages/user";
 import Navbar from "./component/layout/Navbar";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
@@ -47,6 +48,7 @@ function App() {
                 <Route exact path="/" component={Home} />
                 <AuthRoute exact path="/login" component={Login} />
                 <AuthRoute exact path="/signup" component={Signup} />
+                <Route exact path="/users/:handle" component={user} />
               </Switch>
             </div>
           </Router>
