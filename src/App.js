@@ -1,11 +1,16 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Prompt
+} from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import "./App.css";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
-import Navbar from "./component/Navbar";
+import Navbar from "./component/layout/Navbar";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import themeObject from "./util/theme";
@@ -36,7 +41,7 @@ function App() {
       <Provider store={store}>
         <div className="App">
           <Router>
-            <Navbar />
+            <Navbar {...Prompt} />
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Home} />

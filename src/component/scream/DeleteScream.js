@@ -1,11 +1,8 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
-import Mybutton from "../util/MyButton";
+import Mybutton from "../../util/MyButton";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -14,7 +11,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 import { connect } from "react-redux";
-import { deleteScream } from "../redux/actions/dataActions";
+import { deleteScream } from "../../redux/actions/dataActions";
 
 const styles = {
   palette: {
